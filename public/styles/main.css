@@ -1,0 +1,196 @@
+@font-face {
+    font-family: Dalfitra;
+    src: url(../assets/fonts/behanceDalfitra.otf), format('opentype');
+}
+
+@font-face {
+    font-family: Sligoil;
+    src: url(../assets/fonts/Sligoil-Micro.otf), format('opentype');
+}
+
+@font-face {
+    font-family: LeMurmure;
+    src: url(../assets/fonts/LeMurmure-Regular.woff), format(woff),
+        url(../assets/fonts/LeMurmure-Regular.woff2), format(woff2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+:root {
+    --primary-color-text: #ffffff;
+    --secondary-color-text: #969696;
+    --primary-color-bg: #161616;
+    --secondary-color-bg: #1f1f1f;
+    --accent-color: #797979;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--secondary-color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #505050;
+}
+
+body {
+    background-color: var(--primary-color-bg);
+}
+
+header {
+    background-color: var(--secondary-color-bg);
+    padding: 20px;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo img {
+    width: 50px;
+    height: auto;
+    margin-right: 50px;
+    filter: invert(1);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin-right: 20px;
+}
+
+.nav-links li a {
+    font-family: 'Sligoil', sans-serif;
+    text-decoration: none;
+    color: var(--primary-color-text);
+    transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.nav-links li a:hover {
+    font-size: 24px;
+}
+
+.hero {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.hero h1 {
+    font-family: 'LeMurmure', sans-serif;
+    font-size: 46px;
+    letter-spacing: 10px;
+    color: var(--primary-color-text);
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-family: 'Sligoil', sans-serif;
+    font-size: 18px;
+    color: var(--secondary-color-text);
+}
+
+.gallery {
+    margin-top: 50px;
+    margin-bottom: 170px;
+    display: flex;
+    grid-gap: 20px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: stretch;
+    height: fit-content;
+    width: 100%;
+}
+
+.gallery-item {
+    width: 400px;
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+    user-select: none;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: fit-content;
+    object-fit: cover;
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+    user-select: none !important;
+}
+
+.gallery-item video {
+    width: 100%;
+    height: fit-content;
+    object-fit: cover;
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+    user-select: none !important;
+}
+
+.gallery-item img:hover {
+    transform: scale(1.1) rotate(2deg);
+}
+
+.gallery-item video:hover {
+    transform: scale(1.1) rotate(2deg);
+}
+
+
+.gallery-item:hover {
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.gallery-item:active {
+    z-index: 100;
+    opacity: 1;
+    width: 500px;
+    height: auto;
+
+    img:hover {
+        transform: scale(1) rotate(0deg);
+    }
+
+    video:hover {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+.marquee {
+    z-index: 150;
+    position: fixed;
+    bottom: 0;
+    background-color: var(--secondary-color-bg);
+    overflow: hidden;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    display: flex;
+}
+
+.marquee p {
+    font-family: 'Sligoil', sans-serif;
+    color: var(--primary-color-text);
+    font-size: 2em;
+    white-space: nowrap;
+    text-transform: uppercase
+}
