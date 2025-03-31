@@ -179,7 +179,7 @@ nav {
     object-fit: cover;
     transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
     user-select: none !important;
-    filter: blur(10px);
+    filter: grayscale(100%);
     opacity: 0.8;
 }
 
@@ -193,6 +193,7 @@ nav {
     transform: scale(1.1) rotate(2deg);
     filter: blur(0px);
     opacity: 1;
+    filter: grayscale(0%);
 }
 
 
