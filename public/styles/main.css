@@ -169,8 +169,9 @@ nav {
     text-align: center;
     font-size: 1.3em;
     text-transform: uppercase;
-    transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+    transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
     backdrop-filter: blur(10px);
+    border-radius: 8px;
 }
 
 .gallery-item video {
