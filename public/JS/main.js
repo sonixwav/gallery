@@ -19,7 +19,14 @@ function Marquee(selector, speed) {
 //after window is completed load
 //1 class selector for marquee
 //2 marquee speed 0.2
-window.addEventListener('load', Marquee('.marquee', 0.2))
+window.addEventListener('load', () => {
+  Marquee('.marquee', 0.2)
+  decryptEffect('.text1', 'Explore my world through this gallery', 50);
+  decryptEffect('.text2', 'All this images are designed by me.', 50);
+  decryptEffect('.text3', '(Hover an image to color it and hold pressed left click to size up)', 25);
+});
+
+//==========================================================
 
 
 function decryptEffect(selector, text, speed) {
@@ -37,11 +44,4 @@ function decryptEffect(selector, text, speed) {
     }
   }, speed);
 }
-
-window.addEventListener('load', () => {
-  decryptEffect('.text1', 'Explore my world through this gallery', 50);
-  decryptEffect('.text2', 'All this images are designed by me.', 50);
-  decryptEffect('.text3', '(Hover an image to color it and hold pressed left click to size up)', 25);
-});
-
 
