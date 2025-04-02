@@ -20,3 +20,28 @@ function Marquee(selector, speed) {
 //1 class selector for marquee
 //2 marquee speed 0.2
 window.addEventListener('load', Marquee('.marquee', 0.2))
+
+
+function decryptEffect(selector, text, speed) {
+  const element = document.querySelector(selector);
+  let decryptedText = '';
+  let i = 0;
+
+  const interval = setInterval(() => {
+    decryptedText += text[i];
+    element.textContent = decryptedText;
+    i++;
+
+    if (i >= text.length) {
+      clearInterval(interval);
+    }
+  }, speed);
+}
+
+window.addEventListener('load', () => {
+  decryptEffect('.text1', 'Explore my world through this gallery', 50);
+  decryptEffect('.text2', 'All this images are designed by me.', 50);
+  decryptEffect('.text3', '(Hover an image to color it and hold pressed left click to size up)', 25);
+});
+
+
