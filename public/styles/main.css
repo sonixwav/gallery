@@ -121,6 +121,15 @@ nav {
     color: var(--secondary-color-text);
 }
 
+.GalleryContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+}
+
 .gallery {
     margin-top: 50px;
     margin-bottom: 170px;
@@ -132,7 +141,7 @@ nav {
     justify-content: center;
     align-items: stretch;
     height: fit-content;
-    width: 100%;
+    width: 1800px;
 }
 
 .gallery-item {
@@ -200,6 +209,7 @@ nav {
 
 .gallery-item:hover {
     cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
 
     .imgTitle {
         display: block;
@@ -243,4 +253,291 @@ nav {
     font-size: 2em;
     white-space: nowrap;
     text-transform: uppercase
+}
+
+/* Layout container */
+.container {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 0 20px;
+    color: var(--primary-color-text);
+}
+
+/* HERO / ABOUT */
+.hero-about {
+    display: flex;
+    gap: 36px;
+    align-items: center;
+    justify-content: center;
+    padding: 36px 12px;
+    transition: all 0.6s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+/* Portrait block */
+.portrait {
+    flex: 0 0 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.portrait img {
+    width: 320px;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 150px;
+    transition: transform 0.8s cubic-bezier(0.075, 0.82, 0.165, 1), filter 0.6s, opacity 0.6s;
+    user-select: none;
+}
+
+.portrait img:hover,
+.portrait img:focus {
+    transform: scale(1.03) rotate(1deg);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+
+}
+
+/* Bio column */
+.bio {
+    flex: 1;
+    min-width: 240px;
+}
+
+.bio h1 {
+    font-family: 'LeMurmure', sans-serif;
+    font-size: 34px;
+    letter-spacing: 8px;
+    color: var(--primary-color-text);
+    margin-bottom: 12px;
+    line-height: 1.05;
+}
+
+.bio p {
+    font-family: 'Sligoil', sans-serif;
+    font-size: 1rem;
+    color: var(--secondary-color-text);
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+/* Skills chips */
+.skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.skill {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--primary-color-text);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-family: 'Sligoil', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: transform 0.3s ease, background 0.3s ease;
+    user-select: none;
+}
+
+.skill:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* Section title */
+.section-title {
+    margin: 40px 0 16px;
+    font-family: 'LeMurmure', sans-serif;
+    font-size: 28px;
+    letter-spacing: 8px;
+    text-align: center;
+    color: var(--primary-color-text);
+}
+
+/* CAROUSEL */
+.carousel {
+    position: relative;
+    padding: 10px 4px 30px;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 18px;
+    padding: 12px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    align-items: start;
+}
+
+/* Collaborator card */
+.collab {
+    flex: 0 0 200px;
+    width: 200px;
+    background: var(--secondary-color-bg);
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    transition: transform 0.45s cubic-bezier(0.075, 0.82, 0.165, 1), box-shadow 0.45s;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    user-select: none;
+}
+
+.collab img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 6px;
+    opacity: 0.9;
+    transition: transform 0.6s cubic-bezier(0.075, 0.82, 0.165, 1), filter 0.6s, opacity 0.6s;
+}
+
+.collab .name {
+    font-family: 'Sligoil', sans-serif;
+    margin-top: 10px;
+    color: var(--primary-color-text);
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+.collab .role {
+    font-family: 'Sligoil', sans-serif;
+    color: var(--secondary-color-text);
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
+/* Hover state for cards */
+.collab:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+}
+
+.collab:hover img {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.03);
+}
+
+/* Carousel controls */
+.carousel-controls {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 12px;
+}
+
+.btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: var(--primary-color-text);
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.25s, color 0.25s, transform 0.15s;
+    font-family: 'Sligoil', sans-serif;
+    font-size: 0.95rem;
+    user-select: none;
+}
+
+.btn:hover,
+.btn:focus {
+    background: var(--accent);
+    transform: translateY(-2px);
+    outline: none;
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .hero-about {
+        flex-direction: column;
+        gap: 20px;
+        padding: 24px 8px;
+    }
+
+    .portrait {
+        flex: 0 0 auto;
+    }
+
+    .portrait img {
+        width: 220px;
+        height: 220px;
+    }
+
+    .collab {
+        flex: 0 0 140px;
+        width: 140px;
+    }
+}
+
+@media (max-width: 520px) {
+    .bio h1 {
+        font-size: 22px;
+        letter-spacing: 4px;
+    }
+
+    .section-title {
+        font-size: 20px;
+        letter-spacing: 6px;
+    }
+
+    .portrait img {
+        width: 180px;
+        height: 180px;
+    }
+
+    .collab {
+        flex: 0 0 130px;
+        width: 130px;
+    }
+}
+
+/* Carousel JS compatibility tweaks */
+:root {
+    --carousel-gap: 16px;
+}
+
+.carousel {
+    overflow: hidden;
+    /* JS moves the track with transform, container must hide overflow */
+    touch-action: pan-y;
+    /* allow vertical page scroll while dragging horizontally */
+    -webkit-overflow-scrolling: touch;
+    cursor: grab;
+    -ms-touch-action: pan-y;
+}
+
+.carousel:active {
+    cursor: grabbing;
+}
+
+#track {
+    display: flex;
+    gap: var(--carousel-gap);
+    transition: transform 0.6s cubic-bezier(0.075, 0.82, 0.165, 1);
+    will-change: transform;
+    transform: translateX(0);
+    user-select: none;
+    -webkit-user-drag: none;
+    align-items: start;
+}
+
+/* Make sure children don't shrink (JS relies on item width) */
+#track>* {
+    flex-shrink: 0;
+    pointer-events: auto;
+    user-select: none;
+}
+
+/* Force the old .carousel-track rule to use the same gap value */
+.carousel .carousel-track {
+    gap: var(--carousel-gap) !important;
 }
