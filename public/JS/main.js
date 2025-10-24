@@ -23,7 +23,7 @@ window.addEventListener('load', () => {
   Marquee('.marquee', 0.2)
   decryptEffect('.text1', 'Explore my world through this gallery', 50);
   decryptEffect('.text2', 'All this images are designed by me, I mainly make album cover art.', 40);
-  decryptEffect('.text4', 'If you are interest of getting one, you can DM me on discord : sonixbeats', 30);
+  decryptEffect('.text4', 'You can see the progress I made over the time ! And if you want to know more go check the about section !', 30);
   decryptEffect('.text3', '(Hover an image to color it and hold pressed left click to size up)', 25);
 });
 
