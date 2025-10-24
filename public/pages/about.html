@@ -188,37 +188,92 @@
             </div>
         </section>
     </main>
-
     <script>
-        // Petit carousel horizontal simple — auto-play + navigation
+        // Petit carousel horizontal — drag-to-scroll libre + auto-play + navigation
         (function () {
             const track = document.getElementById('track');
             const next = document.getElementById('next');
             const prev = document.getElementById('prev');
             const items = Array.from(track.children);
-            let index = 0;
+
+            let currentOffset = 0; // translation en px (<= 0)
             let autoplayId = null;
-            const visibleCount = 4; // indicatif ; l'affichage responsive s'adapte visuellement
+            let slideWidth = 0;
+
+            // anti-spam / lock during transitions
+            const TRANSITION_MS = 350;
+            let isLocked = false;
+            let lockTimer = null;
+            function lockFor(ms = TRANSITION_MS) {
+                isLocked = true;
+                next.disabled = prev.disabled = true;
+                clearTimeout(lockTimer);
+                lockTimer = setTimeout(() => {
+                    isLocked = false;
+                    next.disabled = prev.disabled = false;
+                }, ms);
+            }
+
+            function computeSlideWidth() {
+                if (items.length > 1) {
+                    // distance réelle entre deux items (inclut gap)
+                    return Math.round(items[1].getBoundingClientRect().left - items[0].getBoundingClientRect().left);
+                }
+                return items[0].getBoundingClientRect().width;
+            }
+
+            function getMinOffset() {
+                const visible = track.parentElement.getBoundingClientRect().width;
+                const total = items.length * slideWidth;
+                // offset le plus négatif possible pour afficher la fin du carousel
+                return Math.min(0, visible - total);
+            }
+
+            function isScrollable() {
+                return getMinOffset() < 0;
+            }
+
+            function clampOffset(offset) {
+                const min = getMinOffset();
+                return Math.max(min, Math.min(0, offset));
+            }
+
+            function setTransform(offset, withTransition = true) {
+                track.style.transition = withTransition ? `transform ${TRANSITION_MS}ms ease` : 'none';
+                track.style.transform = `translateX(${offset}px)`;
+            }
 
             function update() {
-                const itemWidth = items[0].getBoundingClientRect().width - 53; // gap
-                const maxIndex = Math.max(0, items.length - 1);
-                // clamp index
-                if (index < 0) index = 0;
-                if (index > maxIndex) index = maxIndex;
-                const translateX = -index * itemWidth;
-                track.style.transform = `translateX(${translateX}px)`;
+                slideWidth = computeSlideWidth();
+                currentOffset = clampOffset(currentOffset);
+                setTransform(currentOffset, true);
             }
 
             function nextSlide() {
-                index++;
-                if (index > items.length - 1) index = 0;
+                if (isLocked || !isScrollable()) return;
+                lockFor();
+                const min = getMinOffset();
+                const nextOffset = currentOffset - slideWidth;
+                // si on dépasse la fin -> repartir du début
+                if (nextOffset < min - 1) {
+                    currentOffset = 0;
+                } else {
+                    currentOffset = clampOffset(nextOffset);
+                }
                 update();
             }
 
             function prevSlide() {
-                index--;
-                if (index < 0) index = items.length - 1;
+                if (isLocked || !isScrollable()) return;
+                lockFor();
+                const min = getMinOffset();
+                const prevOffset = currentOffset + slideWidth;
+                // si on dépasse le début -> aller à la fin
+                if (prevOffset > 1) {
+                    currentOffset = min;
+                } else {
+                    currentOffset = clampOffset(prevOffset);
+                }
                 update();
             }
 
@@ -228,38 +283,83 @@
             // autoplay
             function startAutoplay() {
                 stopAutoplay();
-                autoplayId = setInterval(nextSlide, 3500);
+                if (!isScrollable()) return;
+                autoplayId = setInterval(() => {
+                    if (isLocked) return; // skip if a manual transition is ongoing
+                    lockFor();
+                    const min = getMinOffset();
+                    const nextOffset = currentOffset - slideWidth;
+                    if (nextOffset < min - 1) {
+                        // repartir au début
+                        currentOffset = 0;
+                    } else {
+                        currentOffset = clampOffset(nextOffset);
+                    }
+                    setTransform(currentOffset, true);
+                }, 3000);
             }
             function stopAutoplay() {
                 if (autoplayId) { clearInterval(autoplayId); autoplayId = null; }
             }
             function resetAutoplay() {
+                stopAutoplay();
+                // redémarre après un petit délai pour éviter démarrer immédiatement lors du drag
+                setTimeout(startAutoplay, 1000);
+            }
+
+            // Drag to scroll (click & hold) — laisse la position où on relâche
+            let isDown = false;
+            let startX = 0;
+            let startOffset = 0;
+
+            function onPointerDown(e) {
+                isDown = true;
+                startX = e.clientX;
+                startOffset = currentOffset;
+                // supprimer la transition pour le drag
+                setTransform(currentOffset, false);
+                stopAutoplay();
+                // capter le pointeur pour recevoir move/up même si la souris sort du conteneur
+                try { e.target.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+                e.preventDefault();
+            }
+
+            function onPointerMove(e) {
+                if (!isDown) return;
+                const dx = e.clientX - startX;
+                currentOffset = clampOffset(startOffset + dx);
+                setTransform(currentOffset, false);
+            }
+
+            function onPointerUp(e) {
+                if (!isDown) return;
+                isDown = false;
+                // remettre une transition pour un rendu fluide après lâcher
+                setTransform(currentOffset, true);
+                // relâcher le pointeur
+                try { e.target.releasePointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+                // Reprendre immédiatement l'autoplay dès que le drag/scroll est terminé
                 startAutoplay();
             }
 
-            // drag to scroll (basic)
-            let isDown = false;
-            let startX, scrollLeft;
-            track.parentElement.addEventListener('pointerdown', (e) => {
-                isDown = true;
-                startX = e.clientX;
-                track.style.transition = 'none';
-            });
-            window.addEventListener('pointerup', () => {
-                if (!isDown) return;
-                isDown = false;
-                track.style.transition = '';
-            });
-            window.addEventListener('pointermove', (e) => {
-                if (!isDown) return;
-                const dx = e.clientX - startX;
-                track.style.transform = `translateX(${(-index * (items[0].getBoundingClientRect().width + 16)) + dx}px)`;
-            });
+            const wrapper = track.parentElement;
+            wrapper.addEventListener('pointerdown', onPointerDown);
+            wrapper.addEventListener('pointermove', onPointerMove);
+            wrapper.addEventListener('pointerup', onPointerUp);
+            wrapper.addEventListener('pointercancel', onPointerUp);
+            // aussi écouter au niveau window pour garantir release si besoin
+            window.addEventListener('pointerup', onPointerUp);
 
             // resize/update
-            window.addEventListener('resize', update);
+            window.addEventListener('resize', () => {
+                // recalculer slideWidth et clamp la position actuelle pour éviter débordements
+                slideWidth = computeSlideWidth();
+                currentOffset = clampOffset(currentOffset);
+                setTransform(currentOffset, true);
+            });
 
             // init
+            slideWidth = computeSlideWidth();
             update();
             startAutoplay();
         })();
