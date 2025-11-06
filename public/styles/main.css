@@ -552,3 +552,33 @@ nav {
 .carousel .carousel-track {
     gap: var(--carousel-gap) !important;
 }
+
+
+/* rainbow effect */
+.H3-badge {
+    font-family: 'Sligoil', sans-serif;
+    font-size: 18px;
+    background: linear-gradient(90deg, #cfcfcf 0%, #f6f7f8 12%, #797b80 20%, #ffffff 30%, #949597 40%, #e9eaeb 55%, #808183 70%, #f4f5f6 82%, #777474 100%);
+    background-size: 200% 200%;
+    background-repeat: no-repeat;
+    background-position: 0% 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: rainbow 5s linear infinite;
+}
+
+@keyframes rainbow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 50% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
